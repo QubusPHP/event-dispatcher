@@ -143,6 +143,5 @@ use Qubus\EventDispatcher\ActionFilter\Observer;
 echo (new Observer)->filter->applyFilter("header", "Hello");
 ```
  
- ## License
- 
-MIT [License](https://opensource.org/licenses/MIT).
+## License
+Released under the MIT [License](https://opensource.org/licenses/MIT).
