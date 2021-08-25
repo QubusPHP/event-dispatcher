@@ -14,9 +14,10 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\EventDispatcher;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\EventDispatcher\ListenerPriorityQueue;
-use Qubus\Tests\EventDispatcher\FooListener;
+use Qubus\Tests\EventDispatcher\Listener\FooListener;
 use Qubus\EventDispatcher\Dispatcher;
 
 class ListenerPriorityQueueTest extends TestCase
@@ -25,16 +26,16 @@ class ListenerPriorityQueueTest extends TestCase
     {
         $queue = new ListenerPriorityQueue();
         $listener = new FooListener();
-        $this->assertFalse($queue->contains($listener));
+        Assert::assertFalse($queue->contains($listener));
         $queue->insert($listener, Dispatcher::PRIORITY_DEFAULT);
-        $this->assertTrue($queue->contains($listener));
+        Assert::assertTrue($queue->contains($listener));
     }
 
     public function testContains()
     {
         $queue = new ListenerPriorityQueue();
         $listener = new FooListener();
-        $this->assertFalse($queue->contains($listener));
+        Assert::assertFalse($queue->contains($listener));
     }
 
     public function testDetach()
@@ -42,10 +43,10 @@ class ListenerPriorityQueueTest extends TestCase
         $queue = new ListenerPriorityQueue();
         $listener = new FooListener();
         $queue->insert($listener, Dispatcher::PRIORITY_DEFAULT);
-        $this->assertTrue($queue->contains($listener));
+        Assert::assertTrue($queue->contains($listener));
         $queue->insert(new FooListener(), Dispatcher::PRIORITY_DEFAULT);
         $queue->detach($listener);
-        $this->assertFalse($queue->contains($listener));
+        Assert::assertFalse($queue->contains($listener));
     }
 
     public function testClear()
@@ -54,7 +55,7 @@ class ListenerPriorityQueueTest extends TestCase
         $listener = new FooListener();
         $queue->insert($listener, Dispatcher::PRIORITY_DEFAULT);
         $queue->clear();
-        $this->assertFalse($queue->contains($listener));
+        Assert::assertFalse($queue->contains($listener));
     }
 
     public function testAll()
@@ -62,6 +63,6 @@ class ListenerPriorityQueueTest extends TestCase
         $queue = new ListenerPriorityQueue();
         $listener = new FooListener();
         $queue->insert($listener, Dispatcher::PRIORITY_DEFAULT);
-        $this->assertEquals([$listener], $queue->all());
+        Assert::assertEquals([$listener], $queue->all());
     }
 }

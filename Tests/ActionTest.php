@@ -14,20 +14,22 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\EventDispatcher;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Qubus\Exception\Exception;
 use Qubus\EventDispatcher\ActionFilter\Observer;
-use Qubus\Tests\EventDispatcher\HookableExample;
+use Qubus\Tests\EventDispatcher\Hook\HookableExample;
 
 class ActionTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         new HookableExample;
     }
     
     public function testIsInstanceOfHook()
     {
-        $this->assertInstanceOf('Qubus\EventDispatcher\ActionFilter\Observer', new Observer);
+        Assert::assertInstanceOf('Qubus\EventDispatcher\ActionFilter\Observer', new Observer);
     }
 
     public function testCanHookCallable()
@@ -42,12 +44,10 @@ class ActionTest extends TestCase
         (new Observer)->action->doAction('hello.world.2');
     }
 
-    /**
-     * @expectedException \Qubus\Exception\Exception
-     * @expectedException $callback is not a Callable.
-     */
     public function testCanNotHookBoolean()
     {
+        $this->expectException(Exception::class);
+
         (new Observer)->action->addAction('boolean.hook', true);
         (new Observer)->action->doAction('boolean.hook');
     }
@@ -100,10 +100,10 @@ class ActionTest extends TestCase
             40
         );
 
-        $this->assertEquals((new Observer)->action->getHooks()[0]['priority'], 8);
-        $this->assertEquals((new Observer)->action->getHooks()[3]['priority'], 12);
-        $this->assertEquals((new Observer)->action->getHooks()[4]['priority'], 20);
-        $this->assertEquals((new Observer)->action->getHooks()[6]['priority'], 40);
+        Assert::assertEquals((new Observer)->action->getHooks()[0]['priority'], 8);
+        Assert::assertEquals((new Observer)->action->getHooks()[3]['priority'], 12);
+        Assert::assertEquals((new Observer)->action->getHooks()[4]['priority'], 20);
+        Assert::assertEquals((new Observer)->action->getHooks()[6]['priority'], 40);
     }
 
     public function testSingleActionIsRemoved()
@@ -118,7 +118,7 @@ class ActionTest extends TestCase
                 $count++;
             }
         }
-        $this->assertEquals($count, 3);
+        Assert::assertEquals($count, 3);
 
         // check removeAction removes the correct action
         (new Observer)->action->removeAction('hello.world.3', 'hello_world', 30);
@@ -129,7 +129,7 @@ class ActionTest extends TestCase
                 $count++;
             }
         }
-        $this->assertEquals($count, 2);
+        Assert::assertEquals($count, 2);
 
         // check that the action with priority 10 still exists in the collection
         // (only the action with priority 30 should've been removed)
@@ -139,7 +139,7 @@ class ActionTest extends TestCase
                 $priority = $hook['priority'];
             }
         }
-        $this->assertEquals($priority, 12);
+        Assert::assertEquals($priority, 12);
     }
 
     /**
@@ -151,11 +151,11 @@ class ActionTest extends TestCase
         (new Observer)->action->addAction('hello.world.3', 'hello_world', 30, 1);
         (new Observer)->action->addAction('hello.world.3', 'my_other_great_function', 30, 1);
         (new Observer)->action->addAction('hello.world.3_2', 'hello_world', 30, 1);
-        $this->assertEquals(count((new Observer)->action->getHooks()), 11);
+        Assert::assertEquals(count((new Observer)->action->getHooks()), 11);
 
         // check removeFilter removes the filter
         (new Observer)->action->removeAllActions();
-        $this->assertEquals(count((new Observer)->action->getHooks()), 0);
+        Assert::assertEquals(count((new Observer)->action->getHooks()), 0);
     }
 
     /**
@@ -167,7 +167,7 @@ class ActionTest extends TestCase
         (new Observer)->action->addAction('hello.world.3', 'hello_world', 30, 1);
         (new Observer)->action->addAction('hello.world.3', 'my_other_great_function', 30, 1);
         (new Observer)->action->addAction('hello.world.3_2', 'hello_world', 30, 1);
-        $this->assertEquals(count((new Observer)->action->getHooks()), 3);
+        Assert::assertEquals(count((new Observer)->action->getHooks()), 3);
 
         // check removeAction removes the filter
         (new Observer)->action->removeAllActions('hello.world.3');
@@ -178,7 +178,7 @@ class ActionTest extends TestCase
                 $count++;
             }
         }
-        $this->assertEquals($count, 0);
+        Assert::assertEquals($count, 0);
 
         // check that the other action wasn't removed
         $count = 0;
@@ -187,6 +187,6 @@ class ActionTest extends TestCase
                 $count++;
             }
         }
-        $this->assertEquals($count, 1);
+        Assert::assertEquals($count, 1);
     }
 }

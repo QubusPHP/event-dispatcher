@@ -12,7 +12,7 @@
 
 declare(strict_types=1);
 
-namespace Qubus\Tests\EventDispatcher;
+namespace Qubus\Tests\EventDispatcher\Subscriber;
 
 use Qubus\EventDispatcher\EventSubscriber;
 use Qubus\EventDispatcher\GenericEvent;

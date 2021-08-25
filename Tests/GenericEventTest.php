@@ -14,9 +14,11 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\EventDispatcher;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\EventDispatcher\GenericEvent;
 use Qubus\EventDispatcher\Event;
+use Qubus\Exception\Data\TypeException;
 
 class GenericEventTest extends TestCase
 {
@@ -47,7 +49,7 @@ class GenericEventTest extends TestCase
 
     public function testConstruct()
     {
-        $this->assertEquals($this->event, new GenericEvent(Event::EVENT_NAME, $this->subject, ['name' => 'Event']));
+        Assert::assertEquals($this->event, new GenericEvent(Event::EVENT_NAME, $this->subject, ['name' => 'Event']));
     }
 
     /**
@@ -56,32 +58,33 @@ class GenericEventTest extends TestCase
     public function testGetArguments()
     {
         // test getting all
-        $this->assertSame(['name' => 'Event'], $this->event->getArguments());
+        Assert::assertSame(['name' => 'Event'], $this->event->getArguments());
     }
 
     public function testSetArguments()
     {
         $result = $this->event->setArguments(['foo' => 'bar']);
-        $this->assertSame(['foo' => 'bar'], $this->event->getArguments());
-        $this->assertSame($this->event, $result);
+        Assert::assertSame(['foo' => 'bar'], $this->event->getArguments());
+        Assert::assertSame($this->event, $result);
     }
 
     public function testSetArgument()
     {
         $result = $this->event->setArgument('foo2', 'bar2');
-        $this->assertSame(['name' => 'Event', 'foo2' => 'bar2'], $this->event->getArguments());
-        $this->assertEquals($this->event, $result);
+        Assert::assertSame(['name' => 'Event', 'foo2' => 'bar2'], $this->event->getArguments());
+        Assert::assertEquals($this->event, $result);
     }
 
     public function testGetArgument()
     {
         // test getting key
-        $this->assertEquals('Event', $this->event->getArgument('name'));
+        Assert::assertEquals('Event', $this->event->getArgument('name'));
     }
 
     public function testGetArgException()
     {
-        $this->expectException('\Qubus\Exception\Data\TypeException');
+        $this->expectException(TypeException::class);
+
         $this->event->getArgument('nameNotExist');
     }
 }

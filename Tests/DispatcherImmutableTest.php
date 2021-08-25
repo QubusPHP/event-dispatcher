@@ -14,10 +14,11 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\EventDispatcher;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\EventDispatcher\DispatcherImmutable;
-use Qubus\Tests\EventDispatcher\FooListener;
-use Qubus\Tests\EventDispatcher\FooSubscriber;
+use Qubus\Tests\EventDispatcher\Listener\FooListener;
+use Qubus\Tests\EventDispatcher\Subscriber\FooSubscriber;
 use Qubus\EventDispatcher\GenericEvent;
 
 class DispatcherImmutableTest extends TestCase
@@ -48,7 +49,7 @@ class DispatcherImmutableTest extends TestCase
             ->with('kernel.event')
             ->willReturn($resultEvent);
 
-        $this->assertSame($resultEvent, $this->dispatcher->dispatch('kernel.event', $event));
+        Assert::assertSame($resultEvent, $this->dispatcher->dispatch('kernel.event', $event));
     }
 
     public function testGetListeners()
@@ -58,7 +59,7 @@ class DispatcherImmutableTest extends TestCase
             ->with('foo')
             ->willReturn(['result']);
 
-        $this->assertSame(['result'], $this->dispatcher->getListeners('foo'));
+        Assert::assertSame(['result'], $this->dispatcher->getListeners('foo'));
     }
 
     public function testHasListener()
@@ -70,12 +71,13 @@ class DispatcherImmutableTest extends TestCase
             ->with('foo')
             ->willReturn(true);
 
-        $this->assertTrue($this->dispatcher->hasListener('foo', $listener));
+        Assert::assertTrue($this->dispatcher->hasListener('foo', $listener));
     }
 
     public function testAddListenerThrowsAnException()
     {
-        $this->expectException('\BadMethodCallException');
+        $this->expectException(\BadMethodCallException::class);
+
         $this->dispatcher->addListener('event', function () {
             return 'foo';
         });
@@ -83,7 +85,8 @@ class DispatcherImmutableTest extends TestCase
 
     public function testAddSubscriberThrowsAnException()
     {
-        $this->expectException('\BadMethodCallException');
+        $this->expectException(\BadMethodCallException::class);
+
         $subscriber = $this->getMockBuilder('Qubus\EventDispatcher\EventSubscriber')->getMock();
 
         $this->dispatcher->addSubscriber($subscriber);
@@ -91,7 +94,8 @@ class DispatcherImmutableTest extends TestCase
 
     public function testRemoveListenerThrowsAnException()
     {
-        $this->expectException('\BadMethodCallException');
+        $this->expectException(\BadMethodCallException::class);
+
         $this->dispatcher->removeListener('event', function () {
             return 'foo';
         });
@@ -99,7 +103,8 @@ class DispatcherImmutableTest extends TestCase
 
     public function testRemoveSubscriberThrowsAnException()
     {
-        $this->expectException('\BadMethodCallException');
+        $this->expectException(\BadMethodCallException::class);
+
         $subscriber = $this->getMockBuilder('Qubus\EventDispatcher\EventSubscriber')->getMock();
 
         $this->dispatcher->removeSubscriber($subscriber);
