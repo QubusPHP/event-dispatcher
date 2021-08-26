@@ -14,20 +14,21 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\EventDispatcher;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\EventDispatcher\ActionFilter\Observer;
-use Qubus\Tests\EventDispatcher\HookableExample;
+use Qubus\Tests\EventDispatcher\Hook\HookableExample;
 
 class FilterTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         new HookableExample;
     }
     
     public function testIsInstanceOfHook()
     {
-        $this->assertInstanceOf('Qubus\EventDispatcher\ActionFilter\Observer', new Observer);
+        Assert::assertInstanceOf('Qubus\EventDispatcher\ActionFilter\Observer', new Observer);
     }
 
     public function testCanHookCallable()
@@ -38,7 +39,7 @@ class FilterTest extends TestCase
                 return $value.' Filtered';
             }
         );
-        $this->assertEquals((new Observer)->filter->applyFilter('my.awesome.filter', 'Value Was'), 'Value Was Filtered');
+        Assert::assertEquals((new Observer)->filter->applyFilter('my.awesome.filter', 'Value Was'), 'Value Was Filtered');
     }
 
     public function testCanHookArray()
@@ -47,7 +48,7 @@ class FilterTest extends TestCase
 
         (new Observer)->filter->addFilter('my.amazing.filter', [$class, 'css']);
 
-        $this->assertEquals((new Observer)->filter->applyFilter('my.amazing.filter', 'Value Was'), 'css-hook');
+        Assert::assertEquals((new Observer)->filter->applyFilter('my.amazing.filter', 'Value Was'), 'css-hook');
     }
 
     public function testsListnersAreSortedByPriority()
@@ -84,10 +85,10 @@ class FilterTest extends TestCase
             40
         );
 
-        $this->assertEquals((new Observer)->filter->getHooks()[0]['priority'], 8);
-        $this->assertEquals((new Observer)->filter->getHooks()[3]['priority'], 12);
-        $this->assertEquals((new Observer)->filter->getHooks()[4]['priority'], 20);
-        $this->assertEquals((new Observer)->filter->getHooks()[5]['priority'], 40);
+        Assert::assertEquals((new Observer)->filter->getHooks()[0]['priority'], 8);
+        Assert::assertEquals((new Observer)->filter->getHooks()[3]['priority'], 12);
+        Assert::assertEquals((new Observer)->filter->getHooks()[4]['priority'], 20);
+        Assert::assertEquals((new Observer)->filter->getHooks()[5]['priority'], 40);
     }
 
     public function testSingleFilterIsRemoved()
@@ -101,7 +102,7 @@ class FilterTest extends TestCase
                 $count++;
             }
         }
-        $this->assertEquals($count, 5);
+        Assert::assertEquals($count, 5);
 
         // check removeFilter removes the filter
         (new Observer)->filter->removeFilter('my_awesome_filter', 'my_awesome_function', 30);
@@ -112,7 +113,7 @@ class FilterTest extends TestCase
                 $count++;
             }
         }
-        $this->assertEquals($count, 4);
+        Assert::assertEquals($count, 4);
     }
 
     /**
@@ -124,11 +125,11 @@ class FilterTest extends TestCase
         (new Observer)->filter->addFilter('my_awesome_filter', 'my_awesome_function', 30, 1);
         (new Observer)->filter->addFilter('my_awesome_filter', 'my_other_awesome_function', 30, 1);
         (new Observer)->filter->addFilter('my_awesome_filter_2', 'my_awesome_function_2', 30, 1);
-        $this->assertEquals(count((new Observer)->filter->getHooks()), 9);
+        Assert::assertEquals(count((new Observer)->filter->getHooks()), 9);
 
         // check removeFilter removes the filter
         (new Observer)->filter->removeAllFilters();
-        $this->assertEquals(count((new Observer)->filter->getHooks()), 0);
+        Assert::assertEquals(count((new Observer)->filter->getHooks()), 0);
     }
 
     /**
@@ -140,7 +141,7 @@ class FilterTest extends TestCase
         (new Observer)->filter->addFilter('my_awesome_filter', 'my_awesome_function', 30, 1);
         (new Observer)->filter->addFilter('my_awesome_filter', 'my_other_awesome_function', 30, 1);
         (new Observer)->filter->addFilter('my_awesome_filter_2', 'my_awesome_function', 30, 1);
-        $this->assertEquals(count((new Observer)->filter->getHooks()), 3);
+        Assert::assertEquals(count((new Observer)->filter->getHooks()), 3);
 
         // check removeFilter removes the filter
         (new Observer)->filter->removeAllFilters('my_awesome_filter');
@@ -151,7 +152,7 @@ class FilterTest extends TestCase
                 $count++;
             }
         }
-        $this->assertEquals($count, 0);
+        Assert::assertEquals($count, 0);
 
         // check that the other filter wasn't removed
         $count = 0;
@@ -160,6 +161,6 @@ class FilterTest extends TestCase
                 $count++;
             }
         }
-        $this->assertEquals($count, 1);
+        Assert::assertEquals($count, 1);
     }
 }

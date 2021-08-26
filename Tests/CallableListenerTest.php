@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\EventDispatcher;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\EventDispatcher\CallableListener;
 
@@ -25,7 +26,7 @@ class CallableListenerTest extends TestCase
             return true;
         };
         $listener = new CallableListener($callback);
-        $this->assertTrue($listener->getCallable() === $callback);
+        Assert::assertTrue($listener->getCallable() === $callback);
     }
 
     public function testCreateFromCallable()
@@ -33,7 +34,7 @@ class CallableListenerTest extends TestCase
         $listener = CallableListener::createFromCallable(function () {
             return true;
         });
-        $this->assertInstanceOf(CallableListener::class, $listener);
+        Assert::assertInstanceOf(CallableListener::class, $listener);
     }
 
     public function testFindByCallable()
@@ -41,8 +42,8 @@ class CallableListenerTest extends TestCase
         $callback = function () {
             return true;
         };
-        $this->assertTrue(CallableListener::createFromCallable($callback) === CallableListener::findByCallable($callback));
-        $this->assertFalse(CallableListener::findByCallable(function () {
+        Assert::assertTrue(CallableListener::createFromCallable($callback) === CallableListener::findByCallable($callback));
+        Assert::assertFalse(CallableListener::findByCallable(function () {
         }));
     }
 }

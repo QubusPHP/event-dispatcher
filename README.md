@@ -1,3 +1,7 @@
+## Requirements
+
+* PHP 8.0+
+
 ## Installation
 
 Install via composer.

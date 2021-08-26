@@ -14,12 +14,13 @@ declare(strict_types=1);
 
 namespace Qubus\Tests\EventDispatcher;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Qubus\EventDispatcher\Dispatcher;
-use Qubus\Tests\EventDispatcher\FooListener;
+use Qubus\Tests\EventDispatcher\Listener\FooListener;
 use Qubus\Exception\Data\TypeException;
 use Qubus\EventDispatcher\CallableListener;
-use Qubus\Tests\EventDispatcher\FooSubscriber;
+use Qubus\Tests\EventDispatcher\Subscriber\FooSubscriber;
 use Qubus\EventDispatcher\GenericEvent;
 use Qubus\EventDispatcher\Event;
 
@@ -28,15 +29,15 @@ class DispatcherTest extends TestCase
     public function testInitialize()
     {
         $dispatcher = new Dispatcher();
-        $this->assertEmpty($dispatcher->getListeners());
+        Assert::assertEmpty($dispatcher->getListeners());
     }
 
     public function testAddListener()
     {
         $dispatcher = new Dispatcher();
-        $this->assertEmpty($dispatcher->getListeners('foo'));
+        Assert::assertEmpty($dispatcher->getListeners('foo'));
         $dispatcher->addListener('foo', new FooListener());
-        $this->assertCount(1, $dispatcher->getListeners('foo'));
+        Assert::assertCount(1, $dispatcher->getListeners('foo'));
         $this->expectException(TypeException::class);
         $dispatcher->addListener('foo', 'invalid-listener');
     }
@@ -45,14 +46,14 @@ class DispatcherTest extends TestCase
     {
         $dispatcher = new Dispatcher();
         $listener = new FooListener();
-        $this->assertFalse($dispatcher->hasListener('foo', $listener));
+        Assert::assertFalse($dispatcher->hasListener('foo', $listener));
         $dispatcher->addListener('foo', $listener);
-        $this->assertTrue($dispatcher->hasListener('foo', $listener));
+        Assert::assertTrue($dispatcher->hasListener('foo', $listener));
 
         $callback = function () {
         };
         $dispatcher->addListener('bar', $callback);
-        $this->assertTrue($dispatcher->hasListener('bar', $callback));
+        Assert::assertTrue($dispatcher->hasListener('bar', $callback));
     }
 
     public function testGetListeners()
@@ -63,7 +64,7 @@ class DispatcherTest extends TestCase
         $callback = function () {
         };
         $dispatcher->addListener('bar', $callback);
-        $this->assertEquals([
+        Assert::assertEquals([
             $listener,
             CallableListener::findByCallable($callback),
         ], $dispatcher->getListeners());
@@ -73,8 +74,8 @@ class DispatcherTest extends TestCase
     {
         $dispatcher = new Dispatcher();
         $dispatcher->addSubscriber(new FooSubscriber());
-        $this->assertCount(1, $dispatcher->getListeners('kernel.event'));
-        $this->assertCount(1, $dispatcher->getListeners('bar'));
+        Assert::assertCount(1, $dispatcher->getListeners('kernel.event'));
+        Assert::assertCount(1, $dispatcher->getListeners('bar'));
     }
 
     public function testRemoveListener()
@@ -82,17 +83,17 @@ class DispatcherTest extends TestCase
         $dispatcher = new Dispatcher();
         $listener = new FooListener();
         $dispatcher->addListener('bar', $listener);
-        $this->assertCount(1, $dispatcher->getListeners('bar'));
+        Assert::assertCount(1, $dispatcher->getListeners('bar'));
         $dispatcher->removeListener('bar', $listener);
-        $this->assertCount(0, $dispatcher->getListeners('bar'));
+        Assert::assertCount(0, $dispatcher->getListeners('bar'));
         $dispatcher->addListener('bar', $listener);
 
         $dispatcher->removeListener('bar', function () {
         });
-        $this->assertCount(1, $dispatcher->getListeners('bar'));
+        Assert::assertCount(1, $dispatcher->getListeners('bar'));
         $dispatcher->removeListener('foo', function () {
         });
-        $this->assertCount(1, $dispatcher->getListeners('bar'));
+        Assert::assertCount(1, $dispatcher->getListeners('bar'));
     }
 
     public function testRemoveCallableListener()
@@ -101,9 +102,9 @@ class DispatcherTest extends TestCase
         $callback = function () {
         };
         $dispatcher->addListener('bar', $callback);
-        $this->assertCount(1, $dispatcher->getListeners('bar'));
+        Assert::assertCount(1, $dispatcher->getListeners('bar'));
         $dispatcher->removeListener('bar', $callback);
-        $this->assertCount(0, $dispatcher->getListeners('bar'));
+        Assert::assertCount(0, $dispatcher->getListeners('bar'));
     }
 
     public function testRemoveSubscriber()
@@ -112,11 +113,11 @@ class DispatcherTest extends TestCase
         $dispatcher = new Dispatcher();
         $subscriber = new FooSubscriber();
         $dispatcher->addSubscriber($subscriber);
-        $this->assertCount(1, $dispatcher->getListeners('kernel.event'));
-        $this->assertCount(1, $dispatcher->getListeners('bar'));
+        Assert::assertCount(1, $dispatcher->getListeners('kernel.event'));
+        Assert::assertCount(1, $dispatcher->getListeners('bar'));
         $dispatcher->removeSubscriber($subscriber);
-        $this->assertCount(0, $dispatcher->getListeners('kernel.event'));
-        $this->assertCount(0, $dispatcher->getListeners('bar'));
+        Assert::assertCount(0, $dispatcher->getListeners('kernel.event'));
+        Assert::assertCount(0, $dispatcher->getListeners('bar'));
     }
 
     public function testRemoveEventAllListeners()
@@ -124,8 +125,8 @@ class DispatcherTest extends TestCase
         $dispatcher = new Dispatcher();
         $dispatcher->addSubscriber(new FooSubscriber());
         $dispatcher->removeAllListeners('kernel.event');
-        $this->assertCount(0, $dispatcher->getListeners('kernel.event'));
-        $this->assertNotEmpty($dispatcher->getListeners('bar'));
+        Assert::assertCount(0, $dispatcher->getListeners('kernel.event'));
+        Assert::assertNotEmpty($dispatcher->getListeners('bar'));
     }
 
     public function testRemoveAllListeners()
@@ -133,8 +134,8 @@ class DispatcherTest extends TestCase
         $dispatcher = new Dispatcher();
         $dispatcher->addSubscriber(new FooSubscriber());
         $dispatcher->removeAllListeners();
-        $this->assertCount(0, $dispatcher->getListeners('kernel.event'));
-        $this->assertCount(0, $dispatcher->getListeners('kernel.event'));
+        Assert::assertCount(0, $dispatcher->getListeners('kernel.event'));
+        Assert::assertCount(0, $dispatcher->getListeners('kernel.event'));
     }
 
     public function testSimpleDispatch()
@@ -148,16 +149,16 @@ class DispatcherTest extends TestCase
             ++$counter;
         });
         $dispatcher->dispatch('kernel.event');
-        $this->assertEquals(2, $counter);
+        Assert::assertEquals(2, $counter);
     }
 
     public function testDispatchEvent()
     {
         $dispatcher = new Dispatcher();
         $dispatcher->addListener('kernel.event', function (GenericEvent $event) {
-            $this->assertInstanceOf(GenericEvent::class, $event);
-            $this->assertTrue($event->getSubject() === $this);
-            $this->assertEquals('foo', $event->getArgument('data'));
+            Assert::assertInstanceOf(GenericEvent::class, $event);
+            Assert::assertTrue($event->getSubject() === $this);
+            Assert::assertEquals('foo', $event->getArgument('data'));
         });
         $dispatcher->dispatch(new GenericEvent(Event::EVENT_NAME, $this, [
             'data' => 'foo',
@@ -168,16 +169,16 @@ class DispatcherTest extends TestCase
     {
         $dispatcher = new Dispatcher();
         $dispatcher->addListener('kernel.event', function (GenericEvent $event) {
-            $this->assertEquals(10, $event->getArgument('number'));
+            Assert::assertEquals(10, $event->getArgument('number'));
             $event->setArgument('number', 100);
         }, Dispatcher::PRIORITY_DEFAULT);
 
         $dispatcher->addListener('kernel.event', function (GenericEvent $event) {
-            $this->assertEquals(100, $event->getArgument('number'));
+            Assert::assertEquals(100, $event->getArgument('number'));
         }, Dispatcher::PRIORITY_LOW);
 
         $dispatcher->addListener('kernel.event', function (GenericEvent $event) {
-            $this->assertEquals(0, $event->getArgument('number'));
+            Assert::assertEquals(0, $event->getArgument('number'));
             $event->setArgument('number', 10);
         }, Dispatcher::PRIORITY_HIGH);
 
@@ -209,15 +210,15 @@ class DispatcherTest extends TestCase
             'post.event' => [$listener6, $listener5, $listener4],
         ];
 
-        $this->assertSame($expected['pre.event'], $dispatcher->getListeners('pre.event'));
-        $this->assertSame($expected['post.event'], $dispatcher->getListeners('post.event'));
+        Assert::assertSame($expected['pre.event'], $dispatcher->getListeners('pre.event'));
+        Assert::assertSame($expected['post.event'], $dispatcher->getListeners('post.event'));
     }
 
     public function testDispatchStopPropagation()
     {
         $dispatcher = new Dispatcher();
         $dispatcher->addListener('kernel.event', function (GenericEvent $event) {
-            $this->assertEquals(0, $event->getArgument('number'));
+            Assert::assertEquals(0, $event->getArgument('number'));
             $event->setArgument('number', 10);
             $event->stopPropagation();
         });
@@ -228,6 +229,6 @@ class DispatcherTest extends TestCase
             'number' => 0,
         ]);
         $dispatcher->dispatch('kernel.event', $event);
-        $this->assertEquals(10, $event->getArgument('number'));
+        Assert::assertEquals(10, $event->getArgument('number'));
     }
 }
