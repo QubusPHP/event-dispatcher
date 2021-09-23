@@ -4,7 +4,8 @@
  * Qubus\EventDispatcher
  *
  * @link       https://github.com/QubusPHP/event-dispatcher
- * @copyright  2020 Joshua Parker
+ * @copyright  2020 Joshua Parker <josh@joshuaparker.blog>
+ * @copyright  2018 Filip Štamcar (original author Tor Morten Jensen)
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
