@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 namespace Qubus\EventDispatcher\ActionFilter;
 
-use Qubus\EventDispatcher\ActionFilter\Traits\StaticProxy;
+use Qubus\Inheritance\StaticProxy;
 
 use function call_user_func_array;
 use function func_get_args;

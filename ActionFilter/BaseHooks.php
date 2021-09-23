@@ -15,8 +15,8 @@ declare(strict_types=1);
 
 namespace Qubus\EventDispatcher\ActionFilter;
 
-use Qubus\EventDispatcher\ActionFilter\Traits\SortCallback;
 use Qubus\Exception\Exception;
+use Qubus\Inheritance\SortCallback;
 use stdClass;
 
 use function array_slice;
