@@ -17,4 +17,9 @@ namespace Qubus\EventDispatcher;
 interface Event
 {
     public const EVENT_NAME = 'kernel.event';
+
+    /**
+     * Gets the event name.
+     */
+    public function getName(): string;
 }

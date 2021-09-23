@@ -52,7 +52,7 @@ class GenericEvent extends BaseEvent implements Event
     }
 
     /**
-     * Gets the event name.
+     * {@inheritDoc}
      */
     public function getName(): string
     {
