@@ -4,7 +4,7 @@
  * Qubus\EventDispatcher
  *
  * @link       https://github.com/QubusPHP/event-dispatcher
- * @copyright  2020 Joshua Parker
+ * @copyright  2020 Joshua Parker <josh@joshuaparker.blog>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -17,4 +17,9 @@ namespace Qubus\EventDispatcher;
 interface Event
 {
     public const EVENT_NAME = 'kernel.event';
+
+    /**
+     * Gets the event name.
+     */
+    public function getName(): string;
 }

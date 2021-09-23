@@ -35,9 +35,9 @@ class ListenerPriorityQueue implements IteratorAggregate
     /**
      * Insert a listener to the queue.
      *
-     * @param int           $priority
+     * @param int $priority
      */
-    public function insert(EventListener $listener, $priority)
+    public function insert(EventListener $listener, $priority): void
     {
         $this->storage->attach($listener, $priority);
         $this->queue->insert($listener, $priority);
@@ -46,7 +46,7 @@ class ListenerPriorityQueue implements IteratorAggregate
     /**
      * Removes an listener from the queue.
      */
-    public function detach(EventListener $listener)
+    public function detach(EventListener $listener): void
     {
         if ($this->storage->contains($listener)) {
             $this->storage->detach($listener);
@@ -57,7 +57,7 @@ class ListenerPriorityQueue implements IteratorAggregate
     /**
      * Clears the queue.
      */
-    public function clear()
+    public function clear(): void
     {
         $this->storage = new SplObjectStorage();
         $this->queue = new SplPriorityQueue();
