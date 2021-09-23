@@ -4,7 +4,8 @@
  * Qubus\EventDispatcher
  *
  * @link       https://github.com/QubusPHP/event-dispatcher
- * @copyright  2020 Joshua Parker
+ * @copyright  2020 Joshua Parker <josh@joshuaparker.blog>
+ * @copyright  2018 Filip Štamcar (original author Tor Morten Jensen)
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -14,8 +15,8 @@ declare(strict_types=1);
 
 namespace Qubus\EventDispatcher\ActionFilter;
 
-use Qubus\EventDispatcher\ActionFilter\Traits\SortCallback;
 use Qubus\Exception\Exception;
+use Qubus\Inheritance\SortCallback;
 use stdClass;
 
 use function array_slice;
