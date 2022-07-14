@@ -16,17 +16,12 @@ namespace Qubus\EventDispatcher;
 
 use BadMethodCallException;
 use Qubus\EventDispatcher\EventDispatcher;
+use Qubus\Exception\Data\TypeException;
 
-class DispatcherImmutable implements EventDispatcher
+final class DispatcherImmutable implements EventDispatcher
 {
-    /**
-     * The ActionFilterHook API manager.
-     */
-    private EventDispatcher $dispatcher;
-
-    public function __construct(EventDispatcher $dispatcher)
+    public function __construct(private EventDispatcher $dispatcher)
     {
-        $this->dispatcher = $dispatcher;
     }
 
     /**

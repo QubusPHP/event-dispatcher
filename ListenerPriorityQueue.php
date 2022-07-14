@@ -4,7 +4,7 @@
  * Qubus\EventDispatcher
  *
  * @link       https://github.com/QubusPHP/event-dispatcher
- * @copyright  2020 Joshua Parker
+ * @copyright  2020 Joshua Parker <josh@joshuaparker.blog>
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  *
  * @since      1.0.0
@@ -17,19 +17,14 @@ namespace Qubus\EventDispatcher;
 use IteratorAggregate;
 use SplObjectStorage;
 use SplPriorityQueue;
+use Traversable;
 
 class ListenerPriorityQueue implements IteratorAggregate
 {
-    /** @var SplObjectStorage $storage */
-    protected $storage;
-
-    /** @var SplPriorityQueue $queue */
-    protected $queue;
-
-    public function __construct()
-    {
-        $this->storage = new SplObjectStorage();
-        $this->queue = new SplPriorityQueue();
+    public function __construct(
+        protected SplObjectStorage $storage = new SplObjectStorage(),
+        protected SplPriorityQueue $queue = new SplPriorityQueue(),
+    ) {
     }
 
     /**
@@ -91,9 +86,9 @@ class ListenerPriorityQueue implements IteratorAggregate
     /**
      * Clones and returns a iterator.
      *
-     * @return SplPriorityQueue
+     * @return Traversable
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         $queue = clone $this->queue;
         if (! $queue->isEmpty()) {
@@ -106,7 +101,7 @@ class ListenerPriorityQueue implements IteratorAggregate
     /**
      * Refreshes the status of the queue.
      */
-    protected function refreshQueue()
+    protected function refreshQueue(): void
     {
         $this->storage->rewind();
         $this->queue = new SplPriorityQueue();

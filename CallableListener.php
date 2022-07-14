@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Qubus\EventDispatcher;
 
+use Qubus\Exception\Data\TypeException;
+
 use function call_user_func;
 
 class CallableListener implements EventListener
@@ -37,6 +39,10 @@ class CallableListener implements EventListener
      */
     public function __construct($callable)
     {
+        if(!is_callable($callable)) {
+            throw new TypeException('Parameter must be a callable.');
+        }
+
         $this->callable = $callable;
         static::$listeners[] = $this;
     }
@@ -74,9 +80,14 @@ class CallableListener implements EventListener
      *
      * @param callable $callable
      * @return CallableListener|false
+     * @throws TypeException
      */
-    public static function findByCallable($callable)
+    public static function findByCallable($callable): CallableListener|false
     {
+        if(!is_callable($callable)) {
+            throw new TypeException('Parameter must be a callable.');
+        }
+
         foreach (static::$listeners as $listener) {
             if ($listener->getCallable() === $callable) {
                 return $listener;
@@ -89,7 +100,7 @@ class CallableListener implements EventListener
     /**
      * Removes all registered callable-listeners.
      */
-    public static function clearListeners()
+    public static function clearListeners(): void
     {
         static::$listeners = [];
     }

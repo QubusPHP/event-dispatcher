@@ -15,21 +15,21 @@ declare(strict_types=1);
 
 namespace Qubus\EventDispatcher\ActionFilter;
 
-use Qubus\Inheritance\StaticProxy;
+use Qubus\Inheritance\StaticProxyAware;
 
 use function call_user_func_array;
 use function func_get_args;
 
 final class Filter extends BaseHooks implements Filterable, RemoveAllFilters
 {
-    use StaticProxy;
+    use StaticProxyAware;
 
     /**
      * Holds the value of the filter.
      *
      * @var mixed $value
      */
-    protected $value;
+    protected mixed $value;
 
     /**
      * {@inheritDoc}

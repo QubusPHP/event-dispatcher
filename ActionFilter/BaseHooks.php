@@ -16,7 +16,7 @@ declare(strict_types=1);
 namespace Qubus\EventDispatcher\ActionFilter;
 
 use Qubus\Exception\Exception;
-use Qubus\Inheritance\SortCallback;
+use Qubus\Inheritance\SortCallbackAware;
 use stdClass;
 
 use function array_slice;
@@ -29,7 +29,7 @@ use function usort;
 
 abstract class BaseHooks
 {
-    use SortCallback;
+    use SortCallbackAware;
 
     /**
      * Default priority.
