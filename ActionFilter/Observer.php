@@ -38,7 +38,7 @@ class Observer
     }
 
     /**
-     * @return object
+     * @return object|null
      */
     public function get(string $key)
     {
