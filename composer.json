@@ -14,17 +14,16 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Joshua Parler",
+            "name": "Joshua Parker",
             "email": "josh@joshuaparker.blog",
-            "homepage": "https://joshuaparker.dev",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "psr/event-dispatcher": "^1.0",
-        "qubus/exception": "^1.2",
-        "qubus/inheritance": "^1.0"
+        "qubus/exception": "^2.0",
+        "qubus/inheritance": "^2.0"
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "^2.0",

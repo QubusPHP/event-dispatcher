@@ -15,14 +15,14 @@ declare(strict_types=1);
 
 namespace Qubus\EventDispatcher\ActionFilter;
 
-use Qubus\Inheritance\StaticProxy;
+use Qubus\Inheritance\StaticProxyAware;
 
 use function call_user_func_array;
 use function func_get_args;
 
 final class Action extends BaseHooks implements Actionable, RemoveAllActions
 {
-    use StaticProxy;
+    use StaticProxyAware;
 
     /**
      * {@inheritDoc}
