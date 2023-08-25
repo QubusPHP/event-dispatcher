@@ -82,10 +82,10 @@ final class Filter extends BaseHooks implements Filterable, RemoveAllFilters
      *
      * @param string $filter Name of filter.
      * @param mixed $args Arguments passed to the filter.
-     * @return string         Always returns the value.
+     * @return mixed      Returns value or false on error.
      * @throws Exception
      */
-    protected function trigger(string $filter, $args): string
+    protected function trigger(string $filter, $args): mixed
     {
         $this->value = $args[0] ?? '';
 
