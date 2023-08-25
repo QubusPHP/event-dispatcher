@@ -4,17 +4,16 @@
  * Qubus\EventDispatcher
  *
  * @link       https://github.com/QubusPHP/event-dispatcher
- * @copyright  2020 Joshua Parker <josh@joshuaparker.blog>
+ * @copyright  2020 Joshua Parker <joshua@joshuaparker.dev>
  * @copyright  2018 Filip Štamcar (original author Tor Morten Jensen)
  * @license    https://opensource.org/licenses/mit-license.php MIT License
- *
- * @since      1.0.0
  */
 
 declare(strict_types=1);
 
 namespace Qubus\EventDispatcher\ActionFilter;
 
+use Qubus\Exception\Exception;
 use Qubus\Inheritance\StaticProxyAware;
 
 use function call_user_func_array;
@@ -47,6 +46,7 @@ final class Filter extends BaseHooks implements Filterable, RemoveAllFilters
 
     /**
      * {@inheritDoc}
+     * @throws Exception
      */
     public function applyFilter(...$args)
     {
@@ -68,7 +68,7 @@ final class Filter extends BaseHooks implements Filterable, RemoveAllFilters
     /**
      * Removes all filters.
      *
-     * @param string $hook Hook name.
+     * @param string|null $hook Hook name.
      */
     public function removeAllFilters(?string $hook = null): void
     {
@@ -78,13 +78,14 @@ final class Filter extends BaseHooks implements Filterable, RemoveAllFilters
     /**
      * Filters a value.
      *
-     * When a filter is triggerd, all hooks are run in the order supplied when adding them.
+     * When a filter is triggered, all hooks are run in the order supplied when adding them.
      *
-     * @param  string $filter Name of filter.
-     * @param  mixed  $args   Arguments passed to the filter.
+     * @param string $filter Name of filter.
+     * @param mixed $args Arguments passed to the filter.
      * @return string         Always returns the value.
+     * @throws Exception
      */
-    protected function trigger(string $filter, $args)
+    protected function trigger(string $filter, $args): string
     {
         $this->value = $args[0] ?? '';
 

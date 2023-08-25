@@ -4,15 +4,16 @@
  * Qubus\EventDispatcher
  *
  * @link       https://github.com/QubusPHP/event-dispatcher
- * @copyright  2020 Joshua Parker <josh@joshuaparker.blog>
+ * @copyright  2020 Joshua Parker <joshua@joshuaparker.dev>
+ * @copyright  2018 Filip Štamcar (original author Tor Morten Jensen)
  * @license    https://opensource.org/licenses/mit-license.php MIT License
- *
- * @since      1.0.0
  */
 
 declare(strict_types=1);
 
 namespace Qubus\EventDispatcher\ActionFilter;
+
+use ReflectionException;
 
 class Observer
 {
@@ -23,6 +24,9 @@ class Observer
      */
     protected array $instances = [];
 
+    /**
+     * @throws ReflectionException
+     */
     public function __construct()
     {
         $this->add('action', Action::getInstance());
@@ -38,9 +42,10 @@ class Observer
     }
 
     /**
+     * @param string $key
      * @return object|null
      */
-    public function get(string $key)
+    public function get(string $key): ?object
     {
         if (isset($this->instances[$key])) {
             return $this->instances[$key];

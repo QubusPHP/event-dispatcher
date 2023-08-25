@@ -4,10 +4,9 @@
  * Qubus\EventDispatcher
  *
  * @link       https://github.com/QubusPHP/event-dispatcher
- * @copyright  2020 Joshua Parker <josh@joshuaparker.blog>
+ * @copyright  2020 Joshua Parker <joshua@joshuaparker.dev>
+ * @copyright  2018 Filip Štamcar (original author Tor Morten Jensen)
  * @license    https://opensource.org/licenses/mit-license.php MIT License
- *
- * @since      1.0.0
  */
 
 declare(strict_types=1);
@@ -32,14 +31,15 @@ class CallableListener implements EventListener
      *
      * @var array $listeners
      */
-    protected static $listeners = [];
+    protected static array $listeners = [];
 
     /**
      * @param callable $callable
+     * @throws TypeException
      */
     public function __construct($callable)
     {
-        if(!is_callable($callable)) {
+        if (!is_callable($callable)) {
             throw new TypeException('Parameter must be a callable.');
         }
 
@@ -52,7 +52,7 @@ class CallableListener implements EventListener
      *
      * @return callable
      */
-    public function getCallable()
+    public function getCallable(): callable
     {
         return $this->callable;
     }
@@ -60,7 +60,7 @@ class CallableListener implements EventListener
     /**
      * {@inheritdoc}
      */
-    public function handle(Event $event)
+    public function handle(Event $event): void
     {
         call_user_func($this->callable, $event);
     }
@@ -69,6 +69,7 @@ class CallableListener implements EventListener
      * Creates a callable-listener.
      *
      * @param callable $callable
+     * @throws TypeException
      */
     public static function createFromCallable($callable): CallableListener
     {
@@ -84,7 +85,7 @@ class CallableListener implements EventListener
      */
     public static function findByCallable($callable): CallableListener|false
     {
-        if(!is_callable($callable)) {
+        if (!is_callable($callable)) {
             throw new TypeException('Parameter must be a callable.');
         }
 
