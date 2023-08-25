@@ -4,17 +4,16 @@
  * Qubus\EventDispatcher
  *
  * @link       https://github.com/QubusPHP/event-dispatcher
- * @copyright  2020 Joshua Parker <josh@joshuaparker.blog>
+ * @copyright  2020 Joshua Parker <joshua@joshuaparker.dev>
  * @copyright  2018 Filip Štamcar (original author Tor Morten Jensen)
  * @license    https://opensource.org/licenses/mit-license.php MIT License
- *
- * @since      1.0.0
  */
 
 declare(strict_types=1);
 
 namespace Qubus\EventDispatcher\ActionFilter;
 
+use Qubus\Exception\Exception;
 use Qubus\Inheritance\StaticProxyAware;
 
 use function call_user_func_array;
@@ -40,6 +39,7 @@ final class Action extends BaseHooks implements Actionable, RemoveAllActions
 
     /**
      * {@inheritDoc}
+     * @throws Exception
      */
     public function doAction(...$args): void
     {
@@ -69,12 +69,13 @@ final class Action extends BaseHooks implements Actionable, RemoveAllActions
     /**
      * Runs an action.
      *
-     * When an action is triggerd, all hooks are run in the order supplied when adding them.
+     * When an action is triggered, all hooks are run in the order supplied when adding them.
      *
-     * @param  string $action Name of action.
-     * @param  array  $args   Arguments passed to the filter.
+     * @param string $action Name of action.
+     * @param array $args Arguments passed to the filter.
+     * @throws Exception
      */
-    protected function trigger(string $action, $args)
+    protected function trigger(string $action, $args): void
     {
         if ($this->getHooks()) {
             $hooks = $this->getHooks();

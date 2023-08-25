@@ -4,10 +4,9 @@
  * Qubus\EventDispatcher
  *
  * @link       https://github.com/QubusPHP/event-dispatcher
- * @copyright  2020 Joshua Parker <josh@joshuaparker.blog>
+ * @copyright  2020 Joshua Parker <joshua@joshuaparker.dev>
+ * @copyright  2018 Filip Štamcar (original author Tor Morten Jensen)
  * @license    https://opensource.org/licenses/mit-license.php MIT License
- *
- * @since      1.0.0
  */
 
 declare(strict_types=1);
@@ -30,9 +29,10 @@ class ListenerPriorityQueue implements IteratorAggregate
     /**
      * Insert a listener to the queue.
      *
+     * @param EventListener $listener
      * @param int $priority
      */
-    public function insert(EventListener $listener, $priority): void
+    public function insert(EventListener $listener, int $priority): void
     {
         $this->storage->attach($listener, $priority);
         $this->queue->insert($listener, $priority);
@@ -61,9 +61,10 @@ class ListenerPriorityQueue implements IteratorAggregate
     /**
      * Checks whether the queue contains the listener.
      *
+     * @param EventListener $listener
      * @return bool
      */
-    public function contains(EventListener $listener)
+    public function contains(EventListener $listener): bool
     {
         return $this->storage->contains($listener);
     }
@@ -73,7 +74,7 @@ class ListenerPriorityQueue implements IteratorAggregate
      *
      * @return EventListener[]
      */
-    public function all()
+    public function all(): array
     {
         $listeners = [];
         foreach ($this->getIterator() as $listener) {

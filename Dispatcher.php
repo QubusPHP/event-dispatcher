@@ -4,10 +4,9 @@
  * Qubus\EventDispatcher
  *
  * @link       https://github.com/QubusPHP/event-dispatcher
- * @copyright  2020 Joshua Parker <josh@joshuaparker.blog>
+ * @copyright  2020 Joshua Parker <joshua@joshuaparker.dev>
+ * @copyright  2018 Filip Štamcar (original author Tor Morten Jensen)
  * @license    https://opensource.org/licenses/mit-license.php MIT License
- *
- * @since      1.0.0
  */
 
 declare(strict_types=1);
@@ -29,12 +28,12 @@ class Dispatcher implements EventDispatcher
      *
      * @var ListenerPriorityQueue[] $listeners
      */
-    protected $listeners = [];
+    protected array $listeners = [];
 
     /**
      * {@inheritdoc}
      */
-    public function dispatch($eventName, ?Event $event = null)
+    public function dispatch($eventName, ?Event $event = null): void
     {
         if ($eventName instanceof Event) {
             $event = $eventName;
@@ -54,8 +53,9 @@ class Dispatcher implements EventDispatcher
 
     /**
      * {@inheritdoc}
+     * @throws TypeException
      */
-    public function addListener(string $eventName, $listener, int $priority = self::PRIORITY_DEFAULT)
+    public function addListener(string $eventName, $listener, int $priority = self::PRIORITY_DEFAULT): void
     {
         if (! isset($this->listeners[$eventName])) {
             $this->listeners[$eventName] = new ListenerPriorityQueue();
@@ -73,8 +73,9 @@ class Dispatcher implements EventDispatcher
 
     /**
      * {@inheritdoc}
+     * @throws TypeException
      */
-    public function addSubscriber(EventSubscriber $subscriber)
+    public function addSubscriber(EventSubscriber $subscriber): void
     {
         foreach ($subscriber->getSubscribedEvents() as $eventName => $parameters) {
             if (is_string($parameters)) {
@@ -91,8 +92,9 @@ class Dispatcher implements EventDispatcher
 
     /**
      * {@inheritdoc}
+     * @throws TypeException
      */
-    public function removeListener(string $eventName, $listener)
+    public function removeListener(string $eventName, $listener): void
     {
         if (empty($this->listeners[$eventName])) {
             return;
@@ -105,8 +107,9 @@ class Dispatcher implements EventDispatcher
 
     /**
      * {@inheritdoc}
+     * @throws TypeException
      */
-    public function removeSubscriber(EventSubscriber $subscriber)
+    public function removeSubscriber(EventSubscriber $subscriber): void
     {
         foreach ($subscriber->getSubscribedEvents() as $eventName => $parameters) {
             if (is_array($parameters) && is_array($parameters[0])) {
@@ -122,7 +125,7 @@ class Dispatcher implements EventDispatcher
     /**
      * {@inheritdoc}
      */
-    public function removeAllListeners(?string $eventName = null)
+    public function removeAllListeners(?string $eventName = null): void
     {
         if (null !== $eventName && isset($this->listeners[$eventName])) {
             $this->listeners[$eventName]->clear();
@@ -135,6 +138,7 @@ class Dispatcher implements EventDispatcher
 
     /**
      * {@inheritdoc}
+     * @throws TypeException
      */
     public function hasListener(string $eventName, $listener): bool
     {

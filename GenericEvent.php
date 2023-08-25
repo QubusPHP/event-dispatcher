@@ -4,10 +4,9 @@
  * Qubus\EventDispatcher
  *
  * @link       https://github.com/QubusPHP/event-dispatcher
- * @copyright  2020 Joshua Parker <josh@joshuaparker.blog>
+ * @copyright  2020 Joshua Parker <joshua@joshuaparker.dev>
+ * @copyright  2018 Filip Štamcar (original author Tor Morten Jensen)
  * @license    https://opensource.org/licenses/mit-license.php MIT License
- *
- * @since      1.0.0
  */
 
 declare(strict_types=1);
@@ -29,9 +28,9 @@ class GenericEvent extends BaseEvent implements Event
     /**
      * The subject.
      *
-     * @var object $subject
+     * @var ?object $subject
      */
-    protected $subject;
+    protected ?object $subject;
 
     /**
      * Array of arguments.
@@ -41,10 +40,11 @@ class GenericEvent extends BaseEvent implements Event
     protected array $arguments = [];
 
     /**
-     * @param object $subject
+     * @param string $name
+     * @param object|null $subject
      * @param array $arguments
      */
-    public function __construct(string $name = '', $subject = null, array $arguments = [])
+    public function __construct(string $name = '', object $subject = null, array $arguments = [])
     {
         $this->name = $name;
         $this->subject = $subject;
@@ -64,7 +64,7 @@ class GenericEvent extends BaseEvent implements Event
      *
      * @return $this
      */
-    public function setName(string $name)
+    public function setName(string $name): static
     {
         $this->name = $name;
 
@@ -74,10 +74,10 @@ class GenericEvent extends BaseEvent implements Event
     /**
      * Sets the subject.
      *
-     * @param object $subject
+     * @param object|null $subject
      * @return $this
      */
-    public function setSubject($subject)
+    public function setSubject(?object $subject): static
     {
         $this->subject = $subject;
 
@@ -89,7 +89,7 @@ class GenericEvent extends BaseEvent implements Event
      *
      * @return null|object
      */
-    public function getSubject()
+    public function getSubject(): ?object
     {
         return $this->subject;
     }
@@ -97,10 +97,11 @@ class GenericEvent extends BaseEvent implements Event
     /**
      * Sets a argument to the event.
      *
-     * @param mixed  $value
+     * @param string $name
+     * @param mixed $value
      * @return $this
      */
-    public function setArgument(string $name, $value)
+    public function setArgument(string $name, mixed $value): static
     {
         $this->arguments[$name] = $value;
 
@@ -110,10 +111,11 @@ class GenericEvent extends BaseEvent implements Event
     /**
      * Gets the argument by its key.
      *
+     * @param string $name
      * @return mixed
      * @throws TypeException
      */
-    public function getArgument(string $name)
+    public function getArgument(string $name): mixed
     {
         if ($this->hasArgument($name)) {
             return $this->arguments[$name];
@@ -128,7 +130,7 @@ class GenericEvent extends BaseEvent implements Event
      * @param array $arguments
      * @return $this
      */
-    public function setArguments(array $arguments)
+    public function setArguments(array $arguments): static
     {
         $this->arguments = $arguments;
 
