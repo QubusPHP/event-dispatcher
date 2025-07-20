@@ -44,7 +44,7 @@ class GenericEvent extends BaseEvent implements Event
      * @param object|null $subject
      * @param array $arguments
      */
-    public function __construct(string $name = '', object $subject = null, array $arguments = [])
+    public function __construct(string $name = '', ?object $subject = null, array $arguments = [])
     {
         $this->name = $name;
         $this->subject = $subject;
