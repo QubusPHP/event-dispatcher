@@ -15,6 +15,10 @@ namespace Qubus\EventDispatcher\ActionFilter;
 
 use ReflectionException;
 
+/**
+ * @property-read Action $action
+ * @property-read Filter $filter
+ */
 class Observer
 {
     /**
