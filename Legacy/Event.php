@@ -15,7 +15,7 @@ namespace Qubus\EventDispatcher\Legacy;
 
 interface Event
 {
-    public const EVENT_NAME = 'kernel.event';
+    public const string EVENT_NAME = 'kernel.event';
 
     /**
      * Gets the event name.

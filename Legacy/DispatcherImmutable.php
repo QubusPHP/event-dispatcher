@@ -26,9 +26,9 @@ final class DispatcherImmutable implements EventDispatcher
      * {@inheritdoc}
      * @throws TypeException
      */
-    public function dispatch($eventName, ?Event $event = null)
+    public function dispatch(Event|string $eventName, ?Event $event = null)
     {
-        if ($eventName === null) {
+        if ($eventName === '') {
             throw new TypeException('Event name must be a string or implement Event.');
         }
 
@@ -40,7 +40,7 @@ final class DispatcherImmutable implements EventDispatcher
      */
     public function addListener(
         string $eventName,
-        $listener,
+        callable|EventListener $listener,
         int $priority = self::PRIORITY_DEFAULT
     ) {
         throw new BadMethodCallException('Unmodifiable event dispatchers must not be modified.');
@@ -57,7 +57,7 @@ final class DispatcherImmutable implements EventDispatcher
     /**
      * {@inheritdoc}
      */
-    public function removeListener(string $eventName, $listener)
+    public function removeListener(string $eventName, callable|EventListener $listener)
     {
         throw new BadMethodCallException('Unmodifiable event dispatchers must not be modified.');
     }
@@ -81,7 +81,7 @@ final class DispatcherImmutable implements EventDispatcher
     /**
      * {@inheritdoc}
      */
-    public function hasListener(string $eventName, $listener): bool
+    public function hasListener(string $eventName, callable|EventListener $listener): bool
     {
         return $this->dispatcher->hasListener($eventName, $listener);
     }

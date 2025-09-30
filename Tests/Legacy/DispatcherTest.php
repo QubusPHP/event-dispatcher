@@ -12,7 +12,7 @@ use Qubus\EventDispatcher\Legacy\Event;
 use Qubus\EventDispatcher\Legacy\GenericEvent;
 use Qubus\EventDispatcher\Tests\Legacy\Listener\FooListener;
 use Qubus\EventDispatcher\Tests\Legacy\Subscriber\FooSubscriber;
-use Qubus\Exception\Data\TypeException;
+use TypeError;
 
 class DispatcherTest extends TestCase
 {
@@ -28,7 +28,7 @@ class DispatcherTest extends TestCase
         Assert::assertEmpty($dispatcher->getListeners('foo'));
         $dispatcher->addListener('foo', new FooListener());
         Assert::assertCount(1, $dispatcher->getListeners('foo'));
-        $this->expectException(TypeException::class);
+        $this->expectException(TypeError::class);
         $dispatcher->addListener('foo', 'invalid-listener');
     }
 

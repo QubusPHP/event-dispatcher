@@ -20,35 +20,42 @@ interface EventDispatcher
      *
      * @var int PRIORITY_LOW
      */
-    public const PRIORITY_LOW = -100;
+    public const int PRIORITY_LOW = -100;
 
     /**
      * Default priority.
      *
      * @var int PRIORITY_DEFAULT
      */
-    public const PRIORITY_DEFAULT = 0;
+    public const int PRIORITY_DEFAULT = 0;
 
     /**
      * High priority.
      *
      * @var int PRIORITY_HIGH
      */
-    public const PRIORITY_HIGH = 100;
+    public const int PRIORITY_HIGH = 100;
 
     /**
      * Dispatches an event to all registered listeners.
      *
      * @param string|Event $eventName
+     * @param Event|null $event
      */
-    public function dispatch($eventName, ?Event $event = null);
+    public function dispatch(Event|string $eventName, ?Event $event = null);
 
     /**
      * Registries a listener for the event.
      *
-     * @param EventListener|callable $listener
+     * @param string $eventName
+     * @param callable|EventListener $listener
+     * @param int $priority
      */
-    public function addListener(string $eventName, $listener, int $priority = self::PRIORITY_DEFAULT);
+    public function addListener(
+        string $eventName,
+        callable|EventListener $listener,
+        int $priority = self::PRIORITY_DEFAULT
+    );
 
     /**
      * Registries a subscriber.
@@ -58,9 +65,10 @@ interface EventDispatcher
     /**
      * Removes a listener from the specified event.
      *
-     * @param EventListener|callable $listener
+     * @param string $eventName
+     * @param callable|EventListener $listener
      */
-    public function removeListener(string $eventName, $listener);
+    public function removeListener(string $eventName, callable|EventListener $listener);
 
     /**
      * Removes a subscriber.
@@ -75,9 +83,11 @@ interface EventDispatcher
     /**
      * Checks whether the listener is existed for the event.
      *
-     * @param EventListener|callable $listener
+     * @param string $eventName
+     * @param callable|EventListener $listener
+     * @return bool
      */
-    public function hasListener(string $eventName, $listener): bool;
+    public function hasListener(string $eventName, callable|EventListener $listener): bool;
 
     /**
      * Gets all listeners of the event or all registered listeners.

@@ -33,7 +33,7 @@ class Dispatcher implements EventDispatcher
     /**
      * {@inheritdoc}
      */
-    public function dispatch($eventName, ?Event $event = null): void
+    public function dispatch(Event|string $eventName, ?Event $event = null): void
     {
         if ($eventName instanceof Event) {
             $event = $eventName;
@@ -55,8 +55,11 @@ class Dispatcher implements EventDispatcher
      * {@inheritdoc}
      * @throws TypeException
      */
-    public function addListener(string $eventName, $listener, int $priority = self::PRIORITY_DEFAULT): void
-    {
+    public function addListener(
+        string $eventName,
+        callable|EventListener $listener,
+        int $priority = self::PRIORITY_DEFAULT
+    ): void {
         if (! isset($this->listeners[$eventName])) {
             $this->listeners[$eventName] = new ListenerPriorityQueue();
         }
@@ -94,7 +97,7 @@ class Dispatcher implements EventDispatcher
      * {@inheritdoc}
      * @throws TypeException
      */
-    public function removeListener(string $eventName, $listener): void
+    public function removeListener(string $eventName, callable|EventListener $listener): void
     {
         if (empty($this->listeners[$eventName])) {
             return;
@@ -140,7 +143,7 @@ class Dispatcher implements EventDispatcher
      * {@inheritdoc}
      * @throws TypeException
      */
-    public function hasListener(string $eventName, $listener): bool
+    public function hasListener(string $eventName, callable|EventListener $listener): bool
     {
         if (! isset($this->listeners[$eventName])) {
             return false;

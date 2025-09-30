@@ -35,14 +35,9 @@ class CallableListener implements EventListener
 
     /**
      * @param callable $callable
-     * @throws TypeException
      */
-    public function __construct($callable)
+    public function __construct(callable $callable)
     {
-        if (!is_callable($callable)) {
-            throw new TypeException('Parameter must be a callable.');
-        }
-
         $this->callable = $callable;
         static::$listeners[] = $this;
     }
@@ -69,9 +64,9 @@ class CallableListener implements EventListener
      * Creates a callable-listener.
      *
      * @param callable $callable
-     * @throws TypeException
+     * @return CallableListener
      */
-    public static function createFromCallable($callable): CallableListener
+    public static function createFromCallable(callable $callable): CallableListener
     {
         return new static($callable);
     }
@@ -83,12 +78,8 @@ class CallableListener implements EventListener
      * @return CallableListener|false
      * @throws TypeException
      */
-    public static function findByCallable($callable): CallableListener|false
+    public static function findByCallable(callable $callable): CallableListener|false
     {
-        if (!is_callable($callable)) {
-            throw new TypeException('Parameter must be a callable.');
-        }
-
         foreach (static::$listeners as $listener) {
             if ($listener->getCallable() === $callable) {
                 return $listener;
