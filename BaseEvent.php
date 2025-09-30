@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Qubus\EventDispatcher\Legacy;
+namespace Qubus\EventDispatcher;
 
 use Psr\EventDispatcher\StoppableEventInterface;
 

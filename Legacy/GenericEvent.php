@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Qubus\EventDispatcher\Legacy;
 
+use Qubus\EventDispatcher\BaseEvent;
 use Qubus\Exception\Data\TypeException;
 
 use function array_key_exists;
