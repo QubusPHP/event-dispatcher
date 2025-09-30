@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Qubus\Tests\EventDispatcher;
+namespace Qubus\EventDispatcher\Tests\Legacy;
 
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use Qubus\EventDispatcher\Dispatcher;
-use Qubus\Tests\EventDispatcher\Listener\FooListener;
+use Qubus\EventDispatcher\Legacy\CallableListener;
+use Qubus\EventDispatcher\Legacy\Dispatcher;
+use Qubus\EventDispatcher\Legacy\Event;
+use Qubus\EventDispatcher\Legacy\GenericEvent;
+use Qubus\EventDispatcher\Tests\Legacy\Listener\FooListener;
+use Qubus\EventDispatcher\Tests\Legacy\Subscriber\FooSubscriber;
 use Qubus\Exception\Data\TypeException;
-use Qubus\EventDispatcher\CallableListener;
-use Qubus\Tests\EventDispatcher\Subscriber\FooSubscriber;
-use Qubus\EventDispatcher\GenericEvent;
-use Qubus\EventDispatcher\Event;
 
 class DispatcherTest extends TestCase
 {

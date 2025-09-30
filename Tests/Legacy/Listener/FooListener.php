@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Qubus\Tests\EventDispatcher\Listener;
+namespace Qubus\EventDispatcher\Tests\Legacy\Listener;
 
-use Qubus\EventDispatcher\Event;
-use Qubus\EventDispatcher\EventListener;
+use Qubus\EventDispatcher\Legacy\Event;
+use Qubus\EventDispatcher\Legacy\EventListener;
 
 class FooListener implements EventListener
 {

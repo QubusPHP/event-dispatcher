@@ -13,16 +13,7 @@
 
     <!-- Paths to check -->
     <file>./ActionFilter</file>
-    <file>./BaseEvent.php</file>
-    <file>./CallableListener.php</file>
-    <file>./Dispatcher.php</file>
-    <file>./DispatcherImmutable.php</file>
-    <file>./Event.php</file>
-    <file>./EventDispatcher.php</file>
-    <file>./EventListener.php</file>
-    <file>./EventSubscriber.php</file>
-    <file>./GenericEvent.php</file>
-    <file>./ListenerPriorityQueue.php</file>
+    <file>./Legacy</file>
 
     <!-- Include rules from the Qubus Coding Standard -->
     <rule ref="QubusCodingStandard"/>

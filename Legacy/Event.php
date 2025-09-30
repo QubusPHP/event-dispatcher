@@ -11,12 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Qubus\EventDispatcher;
+namespace Qubus\EventDispatcher\Legacy;
 
-interface EventListener
+interface Event
 {
+    public const EVENT_NAME = 'kernel.event';
+
     /**
-     * Handles an event.
+     * Gets the event name.
      */
-    public function handle(Event $event);
+    public function getName(): string;
 }

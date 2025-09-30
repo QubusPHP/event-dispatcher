@@ -11,10 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Qubus\EventDispatcher;
+namespace Qubus\EventDispatcher\Legacy;
 
 use BadMethodCallException;
-use Qubus\EventDispatcher\EventDispatcher;
 use Qubus\Exception\Data\TypeException;
 
 final class DispatcherImmutable implements EventDispatcher

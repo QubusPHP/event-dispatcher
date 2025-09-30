@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Qubus\Tests\EventDispatcher;
+namespace Qubus\EventDispatcher\Tests\Legacy;
 
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use Qubus\EventDispatcher\CallableListener;
+use Qubus\EventDispatcher\Legacy\CallableListener;
 
 class CallableListenerTest extends TestCase
 {

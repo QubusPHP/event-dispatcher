@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Qubus\Tests\EventDispatcher\Subscriber;
+namespace Qubus\EventDispatcher\Tests\Legacy\Subscriber;
 
-use Qubus\EventDispatcher\EventSubscriber;
-use Qubus\EventDispatcher\GenericEvent;
+use Qubus\EventDispatcher\Legacy\EventSubscriber;
+use Qubus\EventDispatcher\Legacy\GenericEvent;
 
 class FooSubscriber implements EventSubscriber
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Qubus\Tests\EventDispatcher;
+namespace Qubus\EventDispatcher\Tests\Legacy;
 
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use Qubus\EventDispatcher\GenericEvent;
-use Qubus\EventDispatcher\Event;
+use Qubus\EventDispatcher\Legacy\Event;
+use Qubus\EventDispatcher\Legacy\GenericEvent;
 use Qubus\Exception\Data\TypeException;
 
 class GenericEventTest extends TestCase

@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Qubus\EventDispatcher;
+namespace Qubus\EventDispatcher\Legacy;
 
 use Qubus\Exception\Data\TypeException;
 

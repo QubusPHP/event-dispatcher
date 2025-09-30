@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Qubus\Tests\EventDispatcher;
+namespace Qubus\EventDispatcher\Tests\Legacy;
 
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Qubus\EventDispatcher\DispatcherImmutable;
-use Qubus\Tests\EventDispatcher\Listener\FooListener;
-use Qubus\Tests\EventDispatcher\Subscriber\FooSubscriber;
-use Qubus\EventDispatcher\GenericEvent;
+use Qubus\EventDispatcher\Legacy\DispatcherImmutable;
+use Qubus\EventDispatcher\Legacy\GenericEvent;
+use Qubus\EventDispatcher\Tests\Legacy\Listener\FooListener;
 
 class DispatcherImmutableTest extends TestCase
 {
@@ -25,7 +25,7 @@ class DispatcherImmutableTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->innerDispatcher = $this->getMockBuilder('Qubus\EventDispatcher\EventDispatcher')->getMock();
+        $this->innerDispatcher = $this->getMockBuilder('Qubus\EventDispatcher\Legacy\EventDispatcher')->getMock();
         $this->dispatcher = new DispatcherImmutable($this->innerDispatcher);
     }
 
@@ -77,7 +77,7 @@ class DispatcherImmutableTest extends TestCase
     {
         $this->expectException(\BadMethodCallException::class);
 
-        $subscriber = $this->getMockBuilder('Qubus\EventDispatcher\EventSubscriber')->getMock();
+        $subscriber = $this->getMockBuilder('Qubus\EventDispatcher\Legacy\EventSubscriber')->getMock();
 
         $this->dispatcher->addSubscriber($subscriber);
     }
@@ -95,7 +95,7 @@ class DispatcherImmutableTest extends TestCase
     {
         $this->expectException(\BadMethodCallException::class);
 
-        $subscriber = $this->getMockBuilder('Qubus\EventDispatcher\EventSubscriber')->getMock();
+        $subscriber = $this->getMockBuilder('Qubus\EventDispatcher\Legacy\EventSubscriber')->getMock();
 
         $this->dispatcher->removeSubscriber($subscriber);
     }

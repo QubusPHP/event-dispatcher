@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Qubus\Tests\EventDispatcher;
+namespace Qubus\EventDispatcher\Tests\Legacy;
 
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use Qubus\EventDispatcher\ListenerPriorityQueue;
-use Qubus\Tests\EventDispatcher\Listener\FooListener;
-use Qubus\EventDispatcher\Dispatcher;
+use Qubus\EventDispatcher\Legacy\Dispatcher;
+use Qubus\EventDispatcher\Legacy\ListenerPriorityQueue;
+use Qubus\EventDispatcher\Tests\Legacy\Listener\FooListener;
 
 class ListenerPriorityQueueTest extends TestCase
 {
