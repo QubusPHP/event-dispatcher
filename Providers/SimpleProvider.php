@@ -10,7 +10,7 @@ class SimpleProvider implements ListenerProviderInterface
 {
     private array $listeners = [];
 
-    public function addListener(string $eventClass, callable $listener): void
+    public function listen(string $eventClass, callable $listener): void
     {
         $this->listeners[$eventClass][] = $listener;
     }

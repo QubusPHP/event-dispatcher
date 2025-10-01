@@ -50,7 +50,7 @@ class ProviderTest extends TestCase
     {
         $this->provider = new SimpleProvider();
         foreach ($this->listeners as $listener) {
-            $this->provider->addListener(eventClass: TestEvent::class, listener: function () use ($listener) {
+            $this->provider->listen(eventClass: TestEvent::class, listener: function () use ($listener) {
                 return $listener;
             });
         }
