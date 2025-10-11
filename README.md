@@ -3,7 +3,7 @@
 With the event dispatcher component, you can emit events throughout your application.
 
 ## Requirements
-PHP 8.2+
+PHP 8.4+
 
 ## Installation
 ```
