@@ -29,7 +29,7 @@ trait FilterAware
      * @throws ReflectionException
      * @throws Exception
      */
-    protected function applyFilter($params): void
+    protected function applyFilter(...$params): void
     {
         if (! $this->useFilter) {
             return;

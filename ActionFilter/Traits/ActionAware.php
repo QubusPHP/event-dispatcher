@@ -28,7 +28,7 @@ trait ActionAware
      * @throws ReflectionException
      * @throws Exception
      */
-    protected function doAction($params): void
+    protected function doAction(...$params): void
     {
         if (! $this->useAction) {
             return;
